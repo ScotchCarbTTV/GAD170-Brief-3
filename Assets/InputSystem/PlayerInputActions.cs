@@ -107,6 +107,42 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ShootLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""b554bb6d-722e-46ed-8a9b-032db056cce5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ShootRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""02acc39c-5025-4d8c-9eac-536ef5c11c38"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ReloadLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""2ce9b6f5-b8d8-4096-9c14-13981b57a581"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ReloadRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""1846ebd8-71a5-4ede-9998-7112c0f5ec79"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -164,6 +200,50 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""LookAround"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6e5059db-55a6-4d31-b048-6ba9ccb43355"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShootLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""11ead1d9-0031-4b67-86e1-a2300be6b9ba"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShootRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""be95986c-d61d-4bcf-8d3e-950a24c6d8df"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ReloadLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f1cd8324-e153-4c60-8888-a21714558d43"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ReloadRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -176,6 +256,10 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         // MechTorso
         m_MechTorso = asset.FindActionMap("MechTorso", throwIfNotFound: true);
         m_MechTorso_LookAround = m_MechTorso.FindAction("LookAround", throwIfNotFound: true);
+        m_MechTorso_ShootLeft = m_MechTorso.FindAction("ShootLeft", throwIfNotFound: true);
+        m_MechTorso_ShootRight = m_MechTorso.FindAction("ShootRight", throwIfNotFound: true);
+        m_MechTorso_ReloadLeft = m_MechTorso.FindAction("ReloadLeft", throwIfNotFound: true);
+        m_MechTorso_ReloadRight = m_MechTorso.FindAction("ReloadRight", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -269,11 +353,19 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_MechTorso;
     private IMechTorsoActions m_MechTorsoActionsCallbackInterface;
     private readonly InputAction m_MechTorso_LookAround;
+    private readonly InputAction m_MechTorso_ShootLeft;
+    private readonly InputAction m_MechTorso_ShootRight;
+    private readonly InputAction m_MechTorso_ReloadLeft;
+    private readonly InputAction m_MechTorso_ReloadRight;
     public struct MechTorsoActions
     {
         private @PlayerInputActions m_Wrapper;
         public MechTorsoActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @LookAround => m_Wrapper.m_MechTorso_LookAround;
+        public InputAction @ShootLeft => m_Wrapper.m_MechTorso_ShootLeft;
+        public InputAction @ShootRight => m_Wrapper.m_MechTorso_ShootRight;
+        public InputAction @ReloadLeft => m_Wrapper.m_MechTorso_ReloadLeft;
+        public InputAction @ReloadRight => m_Wrapper.m_MechTorso_ReloadRight;
         public InputActionMap Get() { return m_Wrapper.m_MechTorso; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -286,6 +378,18 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @LookAround.started -= m_Wrapper.m_MechTorsoActionsCallbackInterface.OnLookAround;
                 @LookAround.performed -= m_Wrapper.m_MechTorsoActionsCallbackInterface.OnLookAround;
                 @LookAround.canceled -= m_Wrapper.m_MechTorsoActionsCallbackInterface.OnLookAround;
+                @ShootLeft.started -= m_Wrapper.m_MechTorsoActionsCallbackInterface.OnShootLeft;
+                @ShootLeft.performed -= m_Wrapper.m_MechTorsoActionsCallbackInterface.OnShootLeft;
+                @ShootLeft.canceled -= m_Wrapper.m_MechTorsoActionsCallbackInterface.OnShootLeft;
+                @ShootRight.started -= m_Wrapper.m_MechTorsoActionsCallbackInterface.OnShootRight;
+                @ShootRight.performed -= m_Wrapper.m_MechTorsoActionsCallbackInterface.OnShootRight;
+                @ShootRight.canceled -= m_Wrapper.m_MechTorsoActionsCallbackInterface.OnShootRight;
+                @ReloadLeft.started -= m_Wrapper.m_MechTorsoActionsCallbackInterface.OnReloadLeft;
+                @ReloadLeft.performed -= m_Wrapper.m_MechTorsoActionsCallbackInterface.OnReloadLeft;
+                @ReloadLeft.canceled -= m_Wrapper.m_MechTorsoActionsCallbackInterface.OnReloadLeft;
+                @ReloadRight.started -= m_Wrapper.m_MechTorsoActionsCallbackInterface.OnReloadRight;
+                @ReloadRight.performed -= m_Wrapper.m_MechTorsoActionsCallbackInterface.OnReloadRight;
+                @ReloadRight.canceled -= m_Wrapper.m_MechTorsoActionsCallbackInterface.OnReloadRight;
             }
             m_Wrapper.m_MechTorsoActionsCallbackInterface = instance;
             if (instance != null)
@@ -293,6 +397,18 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @LookAround.started += instance.OnLookAround;
                 @LookAround.performed += instance.OnLookAround;
                 @LookAround.canceled += instance.OnLookAround;
+                @ShootLeft.started += instance.OnShootLeft;
+                @ShootLeft.performed += instance.OnShootLeft;
+                @ShootLeft.canceled += instance.OnShootLeft;
+                @ShootRight.started += instance.OnShootRight;
+                @ShootRight.performed += instance.OnShootRight;
+                @ShootRight.canceled += instance.OnShootRight;
+                @ReloadLeft.started += instance.OnReloadLeft;
+                @ReloadLeft.performed += instance.OnReloadLeft;
+                @ReloadLeft.canceled += instance.OnReloadLeft;
+                @ReloadRight.started += instance.OnReloadRight;
+                @ReloadRight.performed += instance.OnReloadRight;
+                @ReloadRight.canceled += instance.OnReloadRight;
             }
         }
     }
@@ -304,5 +420,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     public interface IMechTorsoActions
     {
         void OnLookAround(InputAction.CallbackContext context);
+        void OnShootLeft(InputAction.CallbackContext context);
+        void OnShootRight(InputAction.CallbackContext context);
+        void OnReloadLeft(InputAction.CallbackContext context);
+        void OnReloadRight(InputAction.CallbackContext context);
     }
 }

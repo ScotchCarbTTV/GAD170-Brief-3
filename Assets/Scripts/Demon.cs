@@ -6,7 +6,7 @@ using FiniteStateMachine;
 
 public class Demon : MonoBehaviour
 {
-    [SerializeField] private Vector2 patrolTarget; 
+    [SerializeField] private Vector3 patrolTarget; 
 
     private GameObject player;
 
@@ -26,18 +26,41 @@ public class Demon : MonoBehaviour
     void Start()
     {
         //set the state to the idle state
-        StateMachine.SetState(new DemonPatrol(this));
-
+        SetIdle();
         
         player = GameObject.FindGameObjectWithTag("Player");
-
     }
-
 
     void Update()
     {
         StateMachine.OnUpdate();
     }
+
+    //method for switching to idle
+    public void SetIdle()
+    {
+        StateMachine.SetState(new DemonIdle(this));
+    }
+
+    //method for switching patrol
+    public void SetPatrol()
+    {
+        StateMachine.SetState(new DemonPatrol(this));
+    }
+
+    //method for switching to hunt
+    public void SetHunt(Vector3 huntPos)
+    {
+        patrolTarget = huntPos;
+        StateMachine.SetState(new DemonHunt(this));
+    }
+
+    //method for switching to chase
+    public void SetChase()
+    {
+        StateMachine.SetState(new DemonChase(this));
+    }
+
 
     public abstract class DemonState : IState
     {
@@ -65,6 +88,20 @@ public class Demon : MonoBehaviour
     }
 
     //dead/idle state
+    public class DemonIdle : DemonState
+    {
+        public DemonIdle(Demon _instance) : base(_instance) { }
+
+        public override void OnEnter()
+        {
+            
+        }
+
+        public override void OnExit()
+        {
+            instance.agent.isStopped = false;
+        }
+    }
 
     //patrol state
     public class DemonPatrol : DemonState
@@ -83,7 +120,7 @@ public class Demon : MonoBehaviour
 
         public override void OnUpdate()
         {
-            if(Vector3.Distance(instance.transform.position, new Vector3(instance.patrolTarget.x, instance.agent.transform.position.y, instance.patrolTarget.y)) <= 3f)
+            if(Vector3.Distance(instance.transform.position, instance.patrolTarget) <= 5f)
             {
                 instance.patrolTarget = instance.navManager.GetRandomNavMarker().position;
                 instance.agent.SetDestination(instance.patrolTarget);
@@ -94,6 +131,13 @@ public class Demon : MonoBehaviour
     }
 
     //hunting state
+    public class DemonHunt : DemonState
+    {
+        public DemonHunt(Demon _instance) : base(_instance) { }
+
+        //move towards the last known position of the player
+
+    }
 
     //chasing state
     public class DemonChase : DemonState
@@ -115,4 +159,5 @@ public class Demon : MonoBehaviour
 
         }
     }
+    
 }
