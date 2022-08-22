@@ -13,10 +13,14 @@ public class DemonRoster : MonoBehaviour
     //max number of demons
     [SerializeField] int demonMax = 20;
 
-    
+    //delegate and event for despawning any Demons which are killed
+    public delegate void ReturnDemon(GameObject demon);
+    public static ReturnDemon ReturnDemonEvent;
 
     private void Awake()
     {
+        ReturnDemonEvent += AddDemon;
+
         for(int x = 0; x < demonMax; x++)
         {
             GameObject newDemon = Instantiate(demonPref.gameObject, transform.position, Quaternion.identity);
@@ -25,9 +29,11 @@ public class DemonRoster : MonoBehaviour
         }
     }
 
+
     public void AddDemon(GameObject demon)
     {
         demonRoster.Add(demon);
+        demon.SetActive(false);
     }
 
     public GameObject SpawnDemon()

@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DemonHurt : MonoBehaviour
+public class DemonClaw : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Bullet"))
+        if(other.gameObject.tag == "Player")
         {
-            Debug.Log("Ouch!");
-        }        
+            Debug.Log("Hitted the player get wrekt");
+        }
     }
 }

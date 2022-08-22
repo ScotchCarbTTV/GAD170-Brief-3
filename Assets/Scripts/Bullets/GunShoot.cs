@@ -87,6 +87,7 @@ public class GunShoot : MonoBehaviour
                 //invoke shoot
                 Shoot();
                 ammoCount -= 1;
+                PlayerStatDisplay.ReducedAmmoREvent(1);
             }
         }
         else
@@ -96,14 +97,19 @@ public class GunShoot : MonoBehaviour
         
         if(gunType == GunType.right && inputActions.MechTorso.ReloadRight.WasPressedThisFrame())
         {
-            
-            int reloadAmount = ammoPool.AmmoTake(ammoMax - ammoCount);
-            ammoCount += reloadAmount;
-            PlayerStatDisplay.GainedAmmoLEvent(reloadAmount);
+
+            int reloadAmountR = AmmoPool.LoseAmmoEvent(ammoMax - ammoCount);
+                //ammoPool.AmmoTake(ammoMax - ammoCount);
+            ammoCount += reloadAmountR;
+            PlayerStatDisplay.GainedAmmoREvent(reloadAmountR);
+            PlayerStatDisplay.AmmoPoolDownEvent(reloadAmountR);
         }
         else if(gunType == GunType.left && inputActions.MechTorso.ReloadLeft.WasPressedThisFrame())
         {
-            ammoCount += ammoPool.AmmoTake(ammoMax - ammoCount);
+            int reloadAmountL = ammoPool.AmmoTake(ammoMax - ammoCount);
+            ammoCount += reloadAmountL;
+            PlayerStatDisplay.GainedAmmoLEvent(reloadAmountL);
+            PlayerStatDisplay.AmmoPoolDownEvent(reloadAmountL);
         }
 
     }

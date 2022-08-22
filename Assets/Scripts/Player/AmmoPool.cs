@@ -9,6 +9,18 @@ public class AmmoPool : MonoBehaviour
 
     [SerializeField] private int currentAmmo = 500;
 
+    public delegate void GainAmmo(int ammoG);
+    public static GainAmmo GainAmmoEvent;
+
+    public delegate int LoseAmmo(int ammoL);
+    public static LoseAmmo LoseAmmoEvent;
+
+    private void Awake()
+    {
+        GainAmmoEvent += AddAmmo;
+        LoseAmmoEvent += AmmoTake;
+    }
+
     public void AddAmmo(int addAmmo)
     {
         currentAmmo += addAmmo;

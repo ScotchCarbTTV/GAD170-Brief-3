@@ -16,6 +16,9 @@ public class Demon : MonoBehaviour
 
     StateMachine StateMachine;
 
+    //reference to the DemonAttack script
+    [SerializeField] DemonAttack dAttack;
+
     private void Awake()
     {
         StateMachine = new StateMachine();
@@ -26,7 +29,7 @@ public class Demon : MonoBehaviour
     void Start()
     {
         //set the state to the idle state
-        SetIdle();
+        SetPatrol();
         
         player = GameObject.FindGameObjectWithTag("Player");
     }
@@ -36,12 +39,14 @@ public class Demon : MonoBehaviour
         StateMachine.OnUpdate();
     }
 
-    //method for switching to idle
-    public void SetIdle()
+    public void DespawnDemon()
     {
-        StateMachine.SetState(new DemonIdle(this));
+        //return the demon to the DemonRoster as an inactie game object upon death
+        DemonRoster.ReturnDemonEvent(gameObject);
     }
 
+    #region DemonState setters
+    
     //method for switching patrol
     public void SetPatrol()
     {
@@ -60,7 +65,7 @@ public class Demon : MonoBehaviour
     {
         StateMachine.SetState(new DemonChase(this));
     }
-
+    #endregion
 
     public abstract class DemonState : IState
     {
@@ -87,22 +92,7 @@ public class Demon : MonoBehaviour
         }
     }
 
-    //dead/idle state
-    public class DemonIdle : DemonState
-    {
-        public DemonIdle(Demon _instance) : base(_instance) { }
-
-        public override void OnEnter()
-        {
-            
-        }
-
-        public override void OnExit()
-        {
-            instance.agent.isStopped = false;
-        }
-    }
-
+    
     //patrol state
     public class DemonPatrol : DemonState
     {
@@ -152,6 +142,12 @@ public class Demon : MonoBehaviour
         public override void OnUpdate()
         {
             instance.agent.SetDestination(instance.player.transform.position);
+
+            if(Vector3.Distance(instance.transform.position, instance.player.transform.position) < 3)
+            {
+                //do the attack anim on the attack obj
+                instance.dAttack.Attack();
+            }
         }
 
         public override void OnExit()
@@ -159,5 +155,13 @@ public class Demon : MonoBehaviour
 
         }
     }
-    
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Player")
+        {
+            SetChase();
+        }
+    }
+
 }

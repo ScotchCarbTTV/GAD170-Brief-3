@@ -6,6 +6,7 @@ TagManager:
   tags:
   - NavMarker
   - Bullet
+  - Claw
   layers:
   - Default
   - TransparentFX
