@@ -8,7 +8,7 @@ public class DemonClaw : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
-            Debug.Log("Hitted the player get wrekt");
+            MechHealth.HealthDownEvent(5);
         }
     }
 }

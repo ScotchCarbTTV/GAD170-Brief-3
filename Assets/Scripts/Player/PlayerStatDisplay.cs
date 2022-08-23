@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class PlayerStatDisplay : MonoBehaviour
@@ -9,6 +10,12 @@ public class PlayerStatDisplay : MonoBehaviour
     [SerializeField] private TMP_Text ammoCountL;
     [SerializeField] private TMP_Text ammoCountR;
     [SerializeField] private TMP_Text ammoPool;
+
+    //refrence to the text display for the currentHP
+    [SerializeField] private TMP_Text currentHP;
+
+    //reference to the image for the healthbar sprite
+    [SerializeField] private Image healthBar;
 
     //integers for storing the actual amount of ammo to be displayed for each gun
     private int currentAmmoL;
@@ -30,6 +37,9 @@ public class PlayerStatDisplay : MonoBehaviour
     public static AmmoPool AmmoPoolDownEvent;
     public static AmmoPool AmmoPoolUpEvent;
 
+    public delegate void UpdateHealthBar(float hp, string hpTxt);
+    public static UpdateHealthBar UpdateHealthBarEvent;
+
     private void Awake()
     {
         ReducedAmmoLEvent += ReduceAmmoL;
@@ -38,6 +48,8 @@ public class PlayerStatDisplay : MonoBehaviour
         GainedAmmoREvent += GainedAmmoR;
         AmmoPoolDownEvent += AmmoPoolDown;
         AmmoPoolUpEvent += AmmoPoolUp;
+        UpdateHealthBarEvent += HealthBar;
+
     }
 
     void Start()
@@ -86,5 +98,11 @@ public class PlayerStatDisplay : MonoBehaviour
             currentAmmoP = 500;
         }
         ammoPool.text = "Ammo Reserve: \n" + currentAmmoP;
+    }
+
+    private void HealthBar(float hp, string hpTxt)
+    {
+        currentHP.text = hpTxt;
+        healthBar.fillAmount = hp;
     }
 }
