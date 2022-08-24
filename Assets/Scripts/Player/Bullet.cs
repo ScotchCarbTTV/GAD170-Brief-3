@@ -26,5 +26,16 @@ public class Bullet : MonoBehaviour
         transform.eulerAngles = forward;
 
         rBody.AddForce(forward * bulletSpeed);
+        //and play shoot sound
     }
+
+   /*
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Wall")
+        {
+            Destroy(gameObject);
+            //and display ricochet decal
+        }
+    }*/
 }

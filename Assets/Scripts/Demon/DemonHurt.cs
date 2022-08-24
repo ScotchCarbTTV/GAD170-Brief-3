@@ -42,6 +42,7 @@ public class DemonHurt : MonoBehaviour
         healthAsPercent = health / maxHealth;
         //Debug.Log("healthAsPercent");
         healthBar.fillAmount = healthAsPercent;
+        DemonHealthBar.ToggleHealthBarEvent(true);
     }
 
     private void OnTriggerEnter(Collider other)
