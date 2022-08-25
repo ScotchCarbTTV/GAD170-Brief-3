@@ -246,6 +246,34 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Menu"",
+            ""id"": ""73731e4b-ad12-49de-901f-f3e6feb45ed6"",
+            ""actions"": [
+                {
+                    ""name"": ""ConfirmInput"",
+                    ""type"": ""Button"",
+                    ""id"": ""eb0b6c43-7e90-4518-9811-bb719dca190c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""2e6298fc-9d2b-4f0c-a6de-356e89b53136"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ConfirmInput"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -260,6 +288,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_MechTorso_ShootRight = m_MechTorso.FindAction("ShootRight", throwIfNotFound: true);
         m_MechTorso_ReloadLeft = m_MechTorso.FindAction("ReloadLeft", throwIfNotFound: true);
         m_MechTorso_ReloadRight = m_MechTorso.FindAction("ReloadRight", throwIfNotFound: true);
+        // Menu
+        m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
+        m_Menu_ConfirmInput = m_Menu.FindAction("ConfirmInput", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -413,6 +444,39 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         }
     }
     public MechTorsoActions @MechTorso => new MechTorsoActions(this);
+
+    // Menu
+    private readonly InputActionMap m_Menu;
+    private IMenuActions m_MenuActionsCallbackInterface;
+    private readonly InputAction m_Menu_ConfirmInput;
+    public struct MenuActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public MenuActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ConfirmInput => m_Wrapper.m_Menu_ConfirmInput;
+        public InputActionMap Get() { return m_Wrapper.m_Menu; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MenuActions set) { return set.Get(); }
+        public void SetCallbacks(IMenuActions instance)
+        {
+            if (m_Wrapper.m_MenuActionsCallbackInterface != null)
+            {
+                @ConfirmInput.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnConfirmInput;
+                @ConfirmInput.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnConfirmInput;
+                @ConfirmInput.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnConfirmInput;
+            }
+            m_Wrapper.m_MenuActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @ConfirmInput.started += instance.OnConfirmInput;
+                @ConfirmInput.performed += instance.OnConfirmInput;
+                @ConfirmInput.canceled += instance.OnConfirmInput;
+            }
+        }
+    }
+    public MenuActions @Menu => new MenuActions(this);
     public interface IMechLegsActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -424,5 +488,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnShootRight(InputAction.CallbackContext context);
         void OnReloadLeft(InputAction.CallbackContext context);
         void OnReloadRight(InputAction.CallbackContext context);
+    }
+    public interface IMenuActions
+    {
+        void OnConfirmInput(InputAction.CallbackContext context);
     }
 }

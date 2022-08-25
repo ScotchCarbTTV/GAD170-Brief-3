@@ -224,6 +224,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Menu",
+            "id": "73731e4b-ad12-49de-901f-f3e6feb45ed6",
+            "actions": [
+                {
+                    "name": "ConfirmInput",
+                    "type": "Button",
+                    "id": "eb0b6c43-7e90-4518-9811-bb719dca190c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2e6298fc-9d2b-4f0c-a6de-356e89b53136",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConfirmInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

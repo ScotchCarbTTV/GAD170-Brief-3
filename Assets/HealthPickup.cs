@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AmmoPickup : MonoBehaviour
+public class HealthPickup : MonoBehaviour
 {
-    [SerializeField] private int ammo;
+    [SerializeField] private int health;
 
     private void Start()
     {
-        
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -16,9 +16,9 @@ public class AmmoPickup : MonoBehaviour
         //Debug.Log("Ping");
         if (other.gameObject.tag == "Player")
         {
-            AmmoPool.GainAmmoEvent(ammo);
-            PlayerStatDisplay.AmmoPoolUpEvent(ammo);
-            string text = "Picked up " + ammo + " ammunition.";
+            MechHealth.HealthUpEvent(health);
+            PlayerStatDisplay.AmmoPoolUpEvent(health);
+            string text = "Picked up " + health + " HP.";
             DialogueDisplay.ShowDialogueEvent(text, 5f, false);
             Destroy(gameObject);
         }

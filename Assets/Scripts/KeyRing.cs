@@ -72,19 +72,19 @@ public class KeyRing : MonoBehaviour
         {
             hasRed = true;
             //update UI
-            DialogueDisplay.ShowDialogueEvent("Picked up the RED key!", 5f);
+            DialogueDisplay.ShowDialogueEvent("Picked up the RED key!", 5f, false);
         }
         else if (keyColour == 1)
         {
             hasBlue = true;
             //updte UI
-            DialogueDisplay.ShowDialogueEvent("Picked up the BLUE key!", 5f);
+            DialogueDisplay.ShowDialogueEvent("Picked up the BLUE key!", 5f, false);
         }
         else if (keyColour == 2)
         {
             hasYellow = true;
             //update UI
-            DialogueDisplay.ShowDialogueEvent("Picked up the YELLOW key!", 5f);
+            DialogueDisplay.ShowDialogueEvent("Picked up the YELLOW key!", 5f, false);
         }
     }
 }

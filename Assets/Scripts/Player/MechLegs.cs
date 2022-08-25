@@ -17,6 +17,9 @@ public class MechLegs : MonoBehaviour
     //float variable exposed to the editor for the turn speed
     [SerializeField] private float turnSpeed;
 
+    //reference to the rigidbody
+    [SerializeField] private Rigidbody rbody;
+
     private PlayerInputActions inputActions;
 
     //vector2 variable for input which will be translated to the d
@@ -30,8 +33,16 @@ public class MechLegs : MonoBehaviour
 
     private void Update()
     {
+       
         //check for input and assign the horizontal and vertical input values to the vector2 inputDir
-        inputDir = new Vector3(inputActions.MechLegs.Movement.ReadValue<Vector2>().x, 0, inputActions.MechLegs.Movement.ReadValue<Vector2>().y);
+        if (inputActions.MechLegs.Movement.ReadValue<Vector2>() != Vector2.zero)
+        {
+            inputDir = new Vector3(inputActions.MechLegs.Movement.ReadValue<Vector2>().x, 0, inputActions.MechLegs.Movement.ReadValue<Vector2>().y);
+        }
+        else
+        {
+            inputDir = Vector3.zero;
+        }
 
         //use inputDir to rotate the characters legs in the direction it will move (modified by the turnspeed)
         if (inputDir != Vector3.zero)
@@ -40,7 +51,9 @@ public class MechLegs : MonoBehaviour
         }
 
         //use inputDir * moveSpeed to move in the direction desired
-        transform.position += inputDir * moveSpeed * Time.deltaTime;
+        
+        rbody.velocity = inputDir * moveSpeed;
+        
     }
 
 

@@ -495,6 +495,12 @@ MonoBehaviour:
   healthBar: {fileID: 967126510418836209}
   healthAsPercent: 0
   demon: {fileID: 9196476333929205113}
+  hBar: {fileID: 4416267458611399087}
+  prefAmmoPickup25: {fileID: 4065768975769452237, guid: cdfd7897199ffd642bca010dc1d71862, type: 3}
+  prefAmmoPickup50: {fileID: 4065768975769452237, guid: 79d9b8e0110c331478e48b1f1d744b44, type: 3}
+  prefHealthPickup10: {fileID: 4125874244302046656, guid: c9ac8eebd3d291e41b09d6d184e2779c, type: 3}
+  prefHealthPickup50: {fileID: 4125874244302046656, guid: 645521cdc209de4409571ff477666272, type: 3}
+  demonGib: {fileID: 3552371868928734638, guid: 438e72f09e5b1b34889d09157b43e40b, type: 3}
 --- !u!1 &9196476333929205119
 GameObject:
   m_ObjectHideFlags: 0

@@ -23,7 +23,7 @@ public class Lock : MonoBehaviour
             {
                 //open door
                 //Debug.Log("The Door Opens");
-                DialogueDisplay.ShowDialogueEvent("Key confirmed. Door opening - please stand clear.", 5f);
+                DialogueDisplay.ShowDialogueEvent("Key confirmed. Door opening - please stand clear.", 5f, false);
                 doorOpenAnim.Play();
                 open = true;
             }
@@ -35,7 +35,7 @@ public class Lock : MonoBehaviour
             {
                 //display 'you need the key'
                 //Debug.Log("You need the " + doorColour + " Key!");
-                DialogueDisplay.ShowDialogueEvent("You need the " + doorColour + " key!", 5f);
+                DialogueDisplay.ShowDialogueEvent("You need the " + doorColour + " key!", 5f, false);
             }
         }
     }

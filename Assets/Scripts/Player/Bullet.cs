@@ -29,7 +29,7 @@ public class Bullet : MonoBehaviour
         //and play shoot sound
     }
 
-   /*
+   
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "Wall")
@@ -37,5 +37,5 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject);
             //and display ricochet decal
         }
-    }*/
+    }
 }
