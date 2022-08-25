@@ -20,6 +20,9 @@ public class MechLegs : MonoBehaviour
     //reference to the rigidbody
     [SerializeField] private Rigidbody rbody;
 
+    //reference to the animator for the legs
+    [SerializeField] Animator animator;
+
     private PlayerInputActions inputActions;
 
     //vector2 variable for input which will be translated to the d
@@ -29,6 +32,7 @@ public class MechLegs : MonoBehaviour
     {
         inputActions = new PlayerInputActions();
         inputActions.Enable();
+        animator.enabled = false;
     }
 
     private void Update()
@@ -38,10 +42,12 @@ public class MechLegs : MonoBehaviour
         if (inputActions.MechLegs.Movement.ReadValue<Vector2>() != Vector2.zero)
         {
             inputDir = new Vector3(inputActions.MechLegs.Movement.ReadValue<Vector2>().x, 0, inputActions.MechLegs.Movement.ReadValue<Vector2>().y);
+            animator.enabled = true;
         }
         else
         {
             inputDir = Vector3.zero;
+            animator.enabled = false;
         }
 
         //use inputDir to rotate the characters legs in the direction it will move (modified by the turnspeed)

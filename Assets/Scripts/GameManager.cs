@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     //switch off the player leg and player controller
     private void Awake()
     {
+        Time.timeScale = 1;
         SceneChangeEvent += NewScene;
         winHUD.SetActive(false);
         inputActions = new PlayerInputActions();
@@ -60,8 +61,6 @@ public class GameManager : MonoBehaviour
 
     private void OpeningDialogue(int phase)
     {
-        DialogueDisplay.UpdatePortraitEvent(portrait, "Lt. Briggs");
-
         switch (dialoguePhase)
         {
             case 1:
@@ -86,12 +85,14 @@ public class GameManager : MonoBehaviour
                 protectWall.SetActive(false);
                 break;
         }
+
+        //DialogueDisplay.UpdatePortraitEvent(portrait, "Lt. Briggs");
     }
 
     private void NewScene(int scene)
-    {
-        Time.timeScale = 1;
-        SceneManager.LoadScene(scene);
+    {        
+        SceneManager.LoadSceneAsync(scene);
+        
     }
 
 }

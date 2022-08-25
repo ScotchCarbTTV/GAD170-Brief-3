@@ -15,7 +15,6 @@ public class DialogueDisplay : MonoBehaviour
     [SerializeField] private Image portrait;
     //reference to the text for the dialogue screen name
     [SerializeField] private TMP_Text dialogueName;
-
     //reference to the dialogue panel
     [SerializeField] private GameObject dialoguePanel;
 
@@ -36,8 +35,10 @@ public class DialogueDisplay : MonoBehaviour
 
     private void ShowDialogue(string text, float displayTime, bool _portrait)
     {
-             
-        portrait.gameObject.SetActive(_portrait);        
+        if(portrait.gameObject != null)
+        {
+            portrait.gameObject.SetActive(_portrait);
+        }
         
         dialogueText.text = text;
         dialoguePanel.SetActive(true);
