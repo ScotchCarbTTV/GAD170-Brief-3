@@ -10,9 +10,11 @@ public class DemonAttack : MonoBehaviour
     //float for attack timer
     [SerializeField] private float attackTimerDelay;
 
+
     private void Awake()
     {
         claw.SetActive(false);
+        
     }
 
     private void Update()
@@ -30,13 +32,16 @@ public class DemonAttack : MonoBehaviour
         {
             claw.SetActive(true);
             attackTimerDelay = 1f;
+            
             Invoke("StopAttack", 0.3f);
         }
     }
 
     private void StopAttack()
     {
+        
         claw.SetActive(false);
+        
     }
 
     

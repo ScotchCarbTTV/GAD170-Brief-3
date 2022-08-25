@@ -14,8 +14,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject protectWall;
 
     [SerializeField] private GameObject winHUD;
-
-    [SerializeField] private Sprite portrait;
     
     string openingText1 = "Captain? CAPTAIN? Are you alive? Press (X)/(A) if you're there.";
     string openingText2 = "Good, you're alive. Lucky that mech can take a beating.";
@@ -36,7 +34,8 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1;
         SceneChangeEvent += NewScene;
-        winHUD.SetActive(false);
+        //winHUD.SetActive(false);
+        
         inputActions = new PlayerInputActions();
         inputActions.Enable();
         dialoguePhase = 1;
@@ -90,9 +89,9 @@ public class GameManager : MonoBehaviour
     }
 
     private void NewScene(int scene)
-    {        
-        SceneManager.LoadSceneAsync(scene);
-        
+    {   
+
+        SceneManager.LoadScene(scene);        
     }
 
 }

@@ -11,7 +11,7 @@ public class DemonSpawner : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating("SpawnNewDemon", 2f, 2f);
+        InvokeRepeating("SpawnNewDemon", 5f, 5f);
     }
 
     public void SpawnNewDemon()

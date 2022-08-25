@@ -67,6 +67,7 @@ public class DemonHurt : MonoBehaviour
                 }
             }
             health = maxHealth;
+            StatManager.KilledDemonEvent();
             demon.DespawnDemon();
             //spawn in gibs
             Instantiate(demonGib, transform.position, Quaternion.identity);
@@ -90,6 +91,7 @@ public class DemonHurt : MonoBehaviour
 
             //create a blood particle effect
             //play demon ouch oneshot
+
         }        
     }
 }

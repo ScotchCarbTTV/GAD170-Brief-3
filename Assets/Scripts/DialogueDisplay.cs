@@ -27,18 +27,30 @@ public class DialogueDisplay : MonoBehaviour
 
     private void Awake()
     {
-        portrait.gameObject.SetActive(false);
+        GameObject.FindGameObjectWithTag("Portrait").TryGetComponent<Image>(out portrait);
         dialoguePanel.SetActive(false);
         ShowDialogueEvent += ShowDialogue;
         UpdatePortraitEvent += _UpdatePortrait;
     }
 
+    private void Start()
+    {
+         
+    }
+
     private void ShowDialogue(string text, float displayTime, bool _portrait)
     {
-        if(portrait.gameObject != null)
+
+        if(_portrait == true)
         {
-            portrait.gameObject.SetActive(_portrait);
+            portrait.gameObject.SetActive(true);
         }
+        else
+        {
+            portrait.gameObject.SetActive(false);
+        }
+         
+        
         
         dialogueText.text = text;
         dialoguePanel.SetActive(true);
@@ -57,6 +69,12 @@ public class DialogueDisplay : MonoBehaviour
     {
         dialogueName.text = dName;
         portrait.sprite = port;
+    }
+
+    private void OnDestroy()
+    {
+        ShowDialogueEvent -= ShowDialogue;
+        UpdatePortraitEvent -= _UpdatePortrait;
     }
 
 }

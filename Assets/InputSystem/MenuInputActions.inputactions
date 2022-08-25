@@ -1,0 +1,74 @@
+{
+    "name": "MenuInputActions",
+    "maps": [
+        {
+            "name": "Menu",
+            "id": "bf5cc524-e69f-4e4b-8df4-19c28669c215",
+            "actions": [
+                {
+                    "name": "Confirm",
+                    "type": "Button",
+                    "id": "1e3687ee-6395-4635-9c82-69a27bc5185c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "UpSelect",
+                    "type": "Button",
+                    "id": "5d9a8bcb-c2fd-48ea-beb3-a1c7e9885d02",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DownSelect",
+                    "type": "Button",
+                    "id": "e25ecf93-3c4e-4372-aa54-95b88713e27d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "033e1d2d-5e0a-482d-939f-70f5a7d597a5",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Confirm",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "16b2c396-f6f4-4fea-a0cc-b892803dfc00",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UpSelect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b6287056-ab00-4fa4-9d43-df819787a531",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DownSelect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

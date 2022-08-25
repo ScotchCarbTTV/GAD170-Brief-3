@@ -8,6 +8,8 @@ TagManager:
   - Bullet
   - Claw
   - Wall
+  - Portrait
+  - EventMan
   layers:
   - Default
   - TransparentFX

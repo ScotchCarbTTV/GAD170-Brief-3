@@ -27,6 +27,11 @@ public class GunShoot : MonoBehaviour
 
     [SerializeField] GunType gunType;
 
+    [SerializeField] AudioSource cannonAudio;
+    [SerializeField] AudioClip shooting;
+    [SerializeField] AudioClip windingDown;
+    [SerializeField] AudioClip reloading;
+    [SerializeField] AudioClip noAmmo;
 
     private PlayerInputActions inputActions;
 
@@ -51,23 +56,47 @@ public class GunShoot : MonoBehaviour
     void Update()
     {
         //if left/right trigger is held
-
+        if (ammoCount == 0)
+        {
+            DialogueDisplay.ShowDialogueEvent("RELOAD RELOAD RELOAD RELOAD RELOAD RELOAD", 1f, false);
+        }
 
         if (gunType == GunType.left && inputActions.MechTorso.ShootLeft.WasPressedThisFrame() == true)
         {
             shoot = true;
+            
+
         }
         else if (gunType == GunType.right && inputActions.MechTorso.ShootRight.WasPressedThisFrame() == true)
         {
-            shoot = true;
+            shoot = true;            
         }
         else if (gunType == GunType.right && inputActions.MechTorso.ShootRight.WasReleasedThisFrame() == true)
         {
             shoot = false;
+            if (ammoCount > 0)
+            {
+                cannonAudio.Stop();
+                cannonAudio.PlayOneShot(windingDown);
+            }
+            else
+            {
+                cannonAudio.Stop();
+            }
         }
-        if (gunType == GunType.left && inputActions.MechTorso.ShootLeft.WasReleasedThisFrame() == true)
+        else if (gunType == GunType.left && inputActions.MechTorso.ShootLeft.WasReleasedThisFrame() == true)
         {
             shoot = false;
+            cannonAudio.loop = false;
+            if (ammoCount > 0)
+            {
+                cannonAudio.Stop();
+                cannonAudio.PlayOneShot(windingDown);
+            }
+            else
+            {
+                cannonAudio.Stop();
+            }
         }
 
         if (ammoCount != 0 && shoot == true && delay < 0)
@@ -101,6 +130,8 @@ public class GunShoot : MonoBehaviour
             int reloadAmountR = AmmoPool.LoseAmmoEvent(ammoMax - ammoCount);
                 //ammoPool.AmmoTake(ammoMax - ammoCount);
             ammoCount += reloadAmountR;
+            cannonAudio.loop = false;
+            cannonAudio.PlayOneShot(reloading);
             PlayerStatDisplay.GainedAmmoREvent(reloadAmountR);
             PlayerStatDisplay.AmmoPoolDownEvent(reloadAmountR);
         }
@@ -108,6 +139,8 @@ public class GunShoot : MonoBehaviour
         {
             int reloadAmountL = ammoPool.AmmoTake(ammoMax - ammoCount);
             ammoCount += reloadAmountL;
+            cannonAudio.loop = false;
+            cannonAudio.PlayOneShot(reloading);
             PlayerStatDisplay.GainedAmmoLEvent(reloadAmountL);
             PlayerStatDisplay.AmmoPoolDownEvent(reloadAmountL);
         }
@@ -116,8 +149,18 @@ public class GunShoot : MonoBehaviour
 
     public void Shoot()
     {
-        Bullet newBullet = Instantiate(bulletPref, transform.position, Quaternion.identity);
+        Bullet newBullet = Instantiate(bulletPref, transform.position, transform.rotation);
         newBullet.BulletShoot(transform.forward);
+        if (ammoCount > 0)
+        {
+            cannonAudio.clip = shooting;
+            cannonAudio.loop = true;
+            cannonAudio.Play();
+        }
+        else
+        {
+            cannonAudio.Stop();
+        }
     }
 
 }

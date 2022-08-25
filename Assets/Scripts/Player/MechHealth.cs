@@ -16,7 +16,11 @@ public class MechHealth : MonoBehaviour
     public static ChangeHealthValue HealthDownEvent;
     public static ChangeHealthValue HealthUpEvent;
 
-   
+    [SerializeField] GameObject loseHUD;
+    [SerializeField] Canvas canvas;
+
+    [SerializeField] AudioSource ouchSource;
+    [SerializeField] AudioClip ouchClip;
 
     private void Awake()
     {
@@ -30,10 +34,12 @@ public class MechHealth : MonoBehaviour
     private void HealthDown(int health)
     {
         currentHealth -= health;
+        ouchSource.PlayOneShot(ouchClip);
         if(currentHealth < 0)
         {
             //open up the gameover menu
-            Debug.Log("Death");
+            Instantiate(loseHUD, canvas.transform.position, Quaternion.identity, canvas.transform);
+            //Debug.Log("Death");
             Time.timeScale = 0;
         }
         float floatHealth = currentHealth / maxHealth;        

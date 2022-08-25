@@ -19,8 +19,14 @@ public class Demon : MonoBehaviour
     //reference to the DemonAttack script
     [SerializeField] DemonAttack dAttack;
 
+    [SerializeField] Animator clawAnim;
+
+    [SerializeField] AudioSource demonBarks;
+    [SerializeField] List<AudioClip> barks = new List<AudioClip>();
+
     private void Awake()
     {
+        clawAnim.enabled = false;
         StateMachine = new StateMachine();
         agent = GetComponent<NavMeshAgent>();
         GameObject.FindGameObjectWithTag("NavMarker").TryGetComponent<NavmarkerManager>(out navManager);
@@ -37,6 +43,25 @@ public class Demon : MonoBehaviour
     void Update()
     {
         StateMachine.OnUpdate();
+        if (Vector3.Distance(transform.position, player.transform.position) < 5)
+        {
+            //do the attack anim on the attack obj
+            clawAnim.enabled = true;
+
+        }
+        else
+        {
+            clawAnim.enabled = false;
+        }
+
+        int ran = Random.Range(1, 10000);
+        if (ran == 1)
+        {
+            int ranBark = Random.Range(0, barks.Count);
+           demonBarks.PlayOneShot(barks[ranBark]);
+        }
+
+        
     }
 
     public void DespawnDemon()
@@ -143,10 +168,16 @@ public class Demon : MonoBehaviour
         {
             instance.agent.SetDestination(instance.player.transform.position);
 
-            if(Vector3.Distance(instance.transform.position, instance.player.transform.position) < 3)
+            if(Vector3.Distance(instance.transform.position, instance.player.transform.position) < 5)
             {
                 //do the attack anim on the attack obj
+                instance.agent.isStopped = true;
                 instance.dAttack.Attack();
+
+            }
+            else
+            {
+                instance.agent.isStopped = false;
             }
         }
 
