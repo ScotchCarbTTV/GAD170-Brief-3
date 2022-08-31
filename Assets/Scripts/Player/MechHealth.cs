@@ -21,6 +21,7 @@ public class MechHealth : MonoBehaviour
 
     [SerializeField] AudioSource ouchSource;
     [SerializeField] AudioClip ouchClip;
+    [SerializeField] AudioClip healthClip;
 
     private void Awake()
     {
@@ -35,7 +36,7 @@ public class MechHealth : MonoBehaviour
     {
         currentHealth -= health;
         ouchSource.PlayOneShot(ouchClip);
-        if(currentHealth < 0)
+        if(currentHealth <= 0)
         {
             //open up the gameover menu
             Instantiate(loseHUD, canvas.transform.position, Quaternion.identity, canvas.transform);
@@ -51,7 +52,8 @@ public class MechHealth : MonoBehaviour
     private void HealthUp(int health)
     {
         currentHealth += health;
-        if(currentHealth > maxHealth)
+        ouchSource.PlayOneShot(healthClip);
+        if (currentHealth > maxHealth)
         {
             currentHealth = maxHealth;
         }
@@ -61,4 +63,9 @@ public class MechHealth : MonoBehaviour
         PlayerStatDisplay.UpdateHealthBarEvent(floatHealth, hpText);
     }
 
+    private void OnDestroy()
+    {
+        HealthDownEvent -= HealthDown;
+        HealthUpEvent -= HealthUp;
+    }
 }

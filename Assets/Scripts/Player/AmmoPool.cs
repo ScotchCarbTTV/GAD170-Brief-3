@@ -15,6 +15,9 @@ public class AmmoPool : MonoBehaviour
     public delegate int LoseAmmo(int ammoL);
     public static LoseAmmo LoseAmmoEvent;
 
+    [SerializeField] AudioSource ammoSource;
+    [SerializeField] AudioClip ammoClip;
+
     private void Awake()
     {
         GainAmmoEvent += AddAmmo;
@@ -24,6 +27,7 @@ public class AmmoPool : MonoBehaviour
     public void AddAmmo(int addAmmo)
     {
         currentAmmo += addAmmo;
+        ammoSource.PlayOneShot(ammoClip);
         currentAmmo = Mathf.Clamp(currentAmmo, 0, maxAmmo);
     }
 
@@ -41,5 +45,12 @@ public class AmmoPool : MonoBehaviour
         {
             return reloadAmmo;
         }        
+    }
+
+
+    private void OnDestroy()
+    {
+        GainAmmoEvent -= AddAmmo;
+        LoseAmmoEvent -= AmmoTake;
     }
 }

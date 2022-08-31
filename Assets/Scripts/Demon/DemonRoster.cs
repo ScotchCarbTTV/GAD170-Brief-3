@@ -51,4 +51,9 @@ public class DemonRoster : MonoBehaviour
         
     }
 
+    private void OnDestroy()
+    {
+        ReturnDemonEvent -= AddDemon;
+    }
+
 }

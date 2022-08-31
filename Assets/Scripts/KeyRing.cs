@@ -87,4 +87,10 @@ public class KeyRing : MonoBehaviour
             DialogueDisplay.ShowDialogueEvent("Picked up the YELLOW key!", 5f, false);
         }
     }
+
+    private void OnDestroy()
+    {
+        KeyCheckEvent -= HaveKey;
+        KeyGetEvent -= AddKey;
+    }
 }

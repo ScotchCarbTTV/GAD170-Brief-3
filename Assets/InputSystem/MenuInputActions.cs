@@ -53,13 +53,40 @@ public partial class @MenuInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Right"",
+                    ""type"": ""Button"",
+                    ""id"": ""8d8fd6c0-cb29-4f44-bd53-23716a4ae8d8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Left"",
+                    ""type"": ""Button"",
+                    ""id"": ""74019b71-5818-4cf5-8f67-44301e24a226"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""3581c951-e4b9-432e-a841-81612a6cfe0f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
                     ""id"": ""033e1d2d-5e0a-482d-939f-70f5a7d597a5"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -88,6 +115,39 @@ public partial class @MenuInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""DownSelect"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""359c947b-0208-40e2-80b3-6661b5968ac8"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Right"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4255c3b5-eff4-45b8-84e6-d0bd6966e9bc"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Left"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aa90b460-9447-4a62-b5d6-ddeff6e0e751"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -99,6 +159,9 @@ public partial class @MenuInputActions : IInputActionCollection2, IDisposable
         m_Menu_Confirm = m_Menu.FindAction("Confirm", throwIfNotFound: true);
         m_Menu_UpSelect = m_Menu.FindAction("UpSelect", throwIfNotFound: true);
         m_Menu_DownSelect = m_Menu.FindAction("DownSelect", throwIfNotFound: true);
+        m_Menu_Right = m_Menu.FindAction("Right", throwIfNotFound: true);
+        m_Menu_Left = m_Menu.FindAction("Left", throwIfNotFound: true);
+        m_Menu_Pause = m_Menu.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -161,6 +224,9 @@ public partial class @MenuInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Menu_Confirm;
     private readonly InputAction m_Menu_UpSelect;
     private readonly InputAction m_Menu_DownSelect;
+    private readonly InputAction m_Menu_Right;
+    private readonly InputAction m_Menu_Left;
+    private readonly InputAction m_Menu_Pause;
     public struct MenuActions
     {
         private @MenuInputActions m_Wrapper;
@@ -168,6 +234,9 @@ public partial class @MenuInputActions : IInputActionCollection2, IDisposable
         public InputAction @Confirm => m_Wrapper.m_Menu_Confirm;
         public InputAction @UpSelect => m_Wrapper.m_Menu_UpSelect;
         public InputAction @DownSelect => m_Wrapper.m_Menu_DownSelect;
+        public InputAction @Right => m_Wrapper.m_Menu_Right;
+        public InputAction @Left => m_Wrapper.m_Menu_Left;
+        public InputAction @Pause => m_Wrapper.m_Menu_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Menu; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -186,6 +255,15 @@ public partial class @MenuInputActions : IInputActionCollection2, IDisposable
                 @DownSelect.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnDownSelect;
                 @DownSelect.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnDownSelect;
                 @DownSelect.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnDownSelect;
+                @Right.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnRight;
+                @Right.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnRight;
+                @Right.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnRight;
+                @Left.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnLeft;
+                @Left.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnLeft;
+                @Left.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnLeft;
+                @Pause.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_MenuActionsCallbackInterface = instance;
             if (instance != null)
@@ -199,6 +277,15 @@ public partial class @MenuInputActions : IInputActionCollection2, IDisposable
                 @DownSelect.started += instance.OnDownSelect;
                 @DownSelect.performed += instance.OnDownSelect;
                 @DownSelect.canceled += instance.OnDownSelect;
+                @Right.started += instance.OnRight;
+                @Right.performed += instance.OnRight;
+                @Right.canceled += instance.OnRight;
+                @Left.started += instance.OnLeft;
+                @Left.performed += instance.OnLeft;
+                @Left.canceled += instance.OnLeft;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -208,5 +295,8 @@ public partial class @MenuInputActions : IInputActionCollection2, IDisposable
         void OnConfirm(InputAction.CallbackContext context);
         void OnUpSelect(InputAction.CallbackContext context);
         void OnDownSelect(InputAction.CallbackContext context);
+        void OnRight(InputAction.CallbackContext context);
+        void OnLeft(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

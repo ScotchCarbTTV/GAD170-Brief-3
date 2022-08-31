@@ -6,10 +6,6 @@ public class HealthPickup : MonoBehaviour
 {
     [SerializeField] private int health;
 
-    private void Start()
-    {
-
-    }
 
     private void OnTriggerEnter(Collider other)
     {

@@ -29,11 +29,22 @@ public class GameManager : MonoBehaviour
     public delegate void SceneChanger(int scene);
     public static SceneChanger SceneChangeEvent;
 
+    public delegate void PauseGameDel();
+    public static PauseGameDel PauseGameDelEvent;
+
+    private MenuInputActions menInputActions;
+    private bool paused = false;
+    [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject audioMenu;
+
+
+
     //switch off the player leg and player controller
     private void Awake()
     {
         Time.timeScale = 1;
         SceneChangeEvent += NewScene;
+        PauseGameDelEvent += PauseGame;
         //winHUD.SetActive(false);
         
         inputActions = new PlayerInputActions();
@@ -42,15 +53,25 @@ public class GameManager : MonoBehaviour
         legs.enabled = false;
         torso.enabled = false;
         protectWall.SetActive(true);
+        menInputActions = new MenuInputActions();
+        menInputActions.Enable();
+
     }
 
     private void Start()
     {
+        pauseMenu.SetActive(false);
+        audioMenu.SetActive(false);
         OpeningDialogue(dialoguePhase);
     }
 
     private void Update()
     {
+        if (menInputActions.Menu.Pause.WasPressedThisFrame())
+        {            
+            PauseGame();            
+        }
+
         if (inputActions.Menu.ConfirmInput.WasPressedThisFrame())
         {            
             dialoguePhase++;
@@ -88,10 +109,34 @@ public class GameManager : MonoBehaviour
         //DialogueDisplay.UpdatePortraitEvent(portrait, "Lt. Briggs");
     }
 
+    private void PauseGame()
+    {
+        if (paused == false)
+        {
+            paused = true;
+            pauseMenu.SetActive(true);
+            Time.timeScale = 0f;
+        }
+        else
+        {
+
+            Time.timeScale = 1f;
+            pauseMenu.SetActive(false);
+            audioMenu.SetActive(false);
+            paused = false;
+
+        }
+    }
+
     private void NewScene(int scene)
     {   
 
         SceneManager.LoadScene(scene);        
     }
 
+    private void OnDestroy()
+    {
+        SceneChangeEvent -= NewScene;
+        PauseGameDelEvent -= PauseGame;
+    }
 }

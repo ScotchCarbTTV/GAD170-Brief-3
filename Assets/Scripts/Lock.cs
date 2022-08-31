@@ -14,6 +14,13 @@ public class Lock : MonoBehaviour
 
     [SerializeField] Animation doorOpenAnim;
 
+    [SerializeField] GameObject spotLight;
+
+    private void Awake()
+    {
+        spotLight.SetActive(false);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag =="Player")
@@ -25,6 +32,7 @@ public class Lock : MonoBehaviour
                 //Debug.Log("The Door Opens");
                 DialogueDisplay.ShowDialogueEvent("Key confirmed. Door opening - please stand clear.", 5f, false);
                 doorOpenAnim.Play();
+                spotLight.SetActive(true);
                 open = true;
             }
             else if(KeyRing.KeyCheckEvent((int)doorColour) == true && open)

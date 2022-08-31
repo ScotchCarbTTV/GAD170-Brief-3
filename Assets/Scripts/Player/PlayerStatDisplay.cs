@@ -105,4 +105,15 @@ public class PlayerStatDisplay : MonoBehaviour
         currentHP.text = hpTxt;
         healthBar.fillAmount = hp;
     }
+
+    private void OnDestroy()
+    {
+        ReducedAmmoLEvent -= ReduceAmmoL;
+        ReducedAmmoREvent -= ReduceAmmoR;
+        GainedAmmoLEvent -= GainedAmmoL;
+        GainedAmmoREvent -= GainedAmmoR;
+        AmmoPoolDownEvent -= AmmoPoolDown;
+        AmmoPoolUpEvent -= AmmoPoolUp;
+        UpdateHealthBarEvent -= HealthBar;
+    }
 }
